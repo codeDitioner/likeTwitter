@@ -10,7 +10,7 @@ import UIKit
 import BDBOAuth1Manager
 
 class TwitterAPICaller: BDBOAuth1SessionManager {    
-    static let client = TwitterAPICaller(baseURL: URL(string: "https://api.twitter.com"), consumerKey: "oGF5D92juQkZSQUcaGvHaZXFJ", consumerSecret: "O1Q1ISZbYK1fr4NfmaOyMPzJyhuG1UydexTrAGuPsCz0CrpETH")
+    static let client = TwitterAPICaller(baseURL: URL(string: "https://api.twitter.com"), consumerKey: "j3DnlelMuutrSKaqKQewB3O6E", consumerSecret: "qPF2HAlWHs6XIFEGyqORfuIpEjzezFs9z13MYTekMlijpXMtmw")
     var loginSuccess: (() -> ())?
     var loginFailure: ((Error) -> ())?
     
@@ -63,5 +63,13 @@ class TwitterAPICaller: BDBOAuth1SessionManager {
             failure(error)
         })
     }
-    
+
+    func postTweet(tweetString:String, success: @escaping () -> (), failure: @escaping (Error) -> ()){
+        let url = "https://api.twitter.com/1.1/statuses/update.json"
+        TwitterAPICaller.client?.post(url, parameters: ["status":tweetString], progress: nil, success: { (task: URLSessionDataTask, response: Any?) in
+            success()
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+        })
+    }
 }
